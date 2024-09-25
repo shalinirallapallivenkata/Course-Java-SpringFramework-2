@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+<!--    <bean id="develop" class="org.springframeworkdemo.Develop"  scope="prototype">    -->
+
+
+
+<!--<bean id="develop" class="org.springframeworkdemo.Develop" autowire="byName">-->
+    <!-- we can use autowire="byType" -->
+<bean id="develop" class="org.springframeworkdemo.Develop" autowire="byType">
+
+
+    <!-- beans objects managed by Spring Framework -->
+    <!--<property name="age" value="30"></property>  property tag is for setters -->
+    <!-- assign the value age if its a value in property and if an object is used from other class specify object -->
+
+<!--    <constructor-arg value="35" />-->
+<!--    <property name="compile" ref="code" />  assigning object or reference-->
+<!--    <constructor-arg ref="code" />-->
+<!--        <constructor-arg type="org.springframeworkdemo.Code" ref="code"/>-->
+<!--        <constructor-arg type="int" value="35"/>-->
+
+    <!-- using index if parameters of deifferent type also names can be used -->
+<!--        <constructor-arg index="0" value="35"/>-->
+<!--        <constructor-arg index="2" value="30000"/>-->
+<!--        <constructor-arg index="1" ref="code"/>-->
+
+
+    <!-- using index if parameters of deifferent type also names can be used -->
+<!--        <constructor-arg name="age" value="35"/>-->
+<!--        <constructor-arg name="compile" ref="code"/>-->
+<!--        <constructor-arg name="salary" value="30000"/>-->
+
+
+
+    <!-- using type we do not need to worry about the way parameters are mentioned in args of constructor-->
+<!--        works only if they are different type of data-->
+    <!-- the constructor agr should be specified exactly as mentioned in constructor parameters specified -->
+    <!-- Wiring/ Connecting between Develop and Code using code in reference -->
+
+
+    <property name="age" value="32"></property>
+<!--    <property name="compile" ref="code"></property>-->
+    <!-- using name and reference as same as the bea with id="compile -->
+<!--    <property name="compile" ref="compile"></property>-->
+
+
+    <property name="compile">
+        <!-- inner bean can only be used by develop class -->
+        <bean id="compile" class="org.springframeworkdemo.Code" primary="true"></bean>
+    </property>
+    <!-- can comment the above and will work using autowire ="byName" -->
+    <!-- above no object createdAnalysis  of lazy-init -->
+
+<!--    <property name="compile" ref="compileOne"></property>-->
+    <!-- here  object of  Analysis  cretaed even though lazy-init due to dependency -->
+
+    <property name="salary" value="30000"></property>
+<!--    <property name="compile" ref="compile"></property>-->
+    <!-- autowiring based explicitly on name since byName if ref is compileOne goes for bead with compileOne id analysis method instead of autowire-->
+
+
+</bean>
+
+<!--<bean id="developOne" class="org.springframeworkdemo.Develop"></bean>-->
+
+<!--<bean id="developTwo" class="org.springframeworkdemo.Develop"></bean>-->
+    <!-- changing id here to compile -->
+<!-- <bean id="compile" class="org.springframeworkdemo.Code" primary="true"></bean>-->
+    <!-- if above id made compileTwo we get the error since no compile of Computer found -->
+<!--<bean id="compileOne" class="org.springframeworkdemo.Analysis" lazy-init="true"></bean>-->
+<!--    &lt;!&ndash; can also be &ndash;&gt;-->
+<!--<bean class="org.springframeworkdemo.Analysis" lazy-init="true"></bean>-->
+    <!-- workd and the constructor of analysis is called even if not mentioning id -->
+
+    <!-- both can be used by type since it finds two beans of type Computer we can define one as primary if confusion takes primary  -->
+    <!-- if explicitly ref is compileOne compileOne takes precedence -->
+
+
+<!--With this xml, spring framework provides all the beans i.e. objects in container, However, -->
+<!--     lazy-init says the object of analysis should not be created till it is asked for -->
+<!-- If Analysis object is created in app to access analysis, its still a singleton even though behaves as prototype -->
+<!-- lets say if we give the ref in develop to be as compileOne, even though the compileOne is lazy-init, the Analysis object is still created -->
+<!-- since develop is dependent on Analysis -->
+</beans>
